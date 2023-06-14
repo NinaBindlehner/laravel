@@ -4,6 +4,7 @@ use App\Http\Controllers\EntryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PadletController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/auth/login', [AuthController::class, 'login']);
+
 //registrieren der Controller-Methoden //von web.php, um präfix api zu erhalten
 Route::get('/', [PadletController::class, 'index']); //default-Route definieren
 Route::get('/padlets', [PadletController::class, 'index']); //get Padlets
@@ -30,9 +33,12 @@ Route::get('/entries/{id}', [EntryController::class, 'findById']); //find Entrie
 Route::get('/padlets/search/{searchTerm}', [PadletController::class, 'findBySearchTerm']);
 Route::get('/entries/search/{searchTerm}', [EntryController::class, 'findBySearchTerm']);
 
-Route::post('padlets', [PadletController::class, 'save']);
-Route::post('entries', [EntryController::class, 'save']);
-Route::put('padlets/{id}', [PadletController::class, 'update']);
-Route::put('entries/{id}', [EntryController::class, 'update']);
-Route::delete('padlets/{id}', [PadletController::class,'delete']);
-Route::delete('entries/{id}', [EntryController::class,'delete']);
+Route::group(['middleware' => ['api', 'auth.jwt', 'auth.admin']], function() {
+    Route::post('padlets', [PadletController::class, 'save']);
+    Route::post('entries', [EntryController::class, 'save']);
+    Route::put('padlets/{id}', [PadletController::class, 'update']);
+    Route::put('entries/{id}', [EntryController::class, 'update']);
+    Route::delete('padlets/{id}', [PadletController::class,'delete']);
+    Route::delete('entries/{id}', [EntryController::class,'delete']);
+    Route::post('auth/logout', [AuthController::class, 'logout']);
+});

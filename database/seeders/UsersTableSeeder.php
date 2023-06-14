@@ -35,6 +35,7 @@ class UsersTableSeeder extends Seeder
         $user1->email = "nina.bindi@test.at";
         $user1->password = bcrypt('test1234'); //Passwort verschlüsseln
         $user1->image = "https://www.zooroyal.at/magazin/wp-content/uploads/2022/09/katze-im-herbst-760x570-1-scaled.jpg";
+        $user1->role = "admin";
         $user1->save();
 
         $user2 = new \App\Models\User;
@@ -43,6 +44,7 @@ class UsersTableSeeder extends Seeder
         $user2->email = "max.muster@test.at";
         $user2->password = bcrypt('test1234');
         $user2->image = "https://www.zooroyal.at/magazin/wp-content/uploads/2022/09/katze-im-herbst-760x570-1-scaled.jpg";
+        $user1->role = "user";
         $user2->save();
 
         $user3 = new \App\Models\User;
@@ -51,6 +53,7 @@ class UsersTableSeeder extends Seeder
         $user3->email = "jane.doe@test.at";
         $user3->password = bcrypt('test1234');
         $user3->image = "https://www.zooroyal.at/magazin/wp-content/uploads/2022/09/katze-im-herbst-760x570-1-scaled.jpg";
+        $user3->role = "user";
         $user3->save();
 
         //update
