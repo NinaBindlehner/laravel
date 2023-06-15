@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EntryController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PadletController;
@@ -32,6 +33,7 @@ Route::get('/padlets/{id}', [PadletController::class, 'findById']); //find Padle
 Route::get('/entries/{id}', [EntryController::class, 'findById']); //find Entries by Id
 Route::get('/padlets/search/{searchTerm}', [PadletController::class, 'findBySearchTerm']);
 Route::get('/entries/search/{searchTerm}', [EntryController::class, 'findBySearchTerm']);
+Route::get('/users', [UserController::class, 'index']); //get User
 
 Route::group(['middleware' => ['api', 'auth.jwt', 'auth.admin']], function() {
     Route::post('padlets', [PadletController::class, 'save']);

@@ -43,8 +43,8 @@ class UsersTableSeeder extends Seeder
         $user2->lastname = "Mustermann";
         $user2->email = "max.muster@test.at";
         $user2->password = bcrypt('test1234');
-        $user2->image = "https://www.zooroyal.at/magazin/wp-content/uploads/2022/09/katze-im-herbst-760x570-1-scaled.jpg";
-        $user2->role = "viewer";
+        $user2->image = "https://www.tipps-vom-experten.de/uploads/2018/04/mann-schoen-gesicht-lacht-fotolia-viacheslav-iakobchuk-700xpl.jpg";
+        $user2->role = "admin";
         $user2->save();
 
         $user3 = new \App\Models\User;
@@ -52,7 +52,7 @@ class UsersTableSeeder extends Seeder
         $user3->lastname = "Doe";
         $user3->email = "jane.doe@test.at";
         $user3->password = bcrypt('test1234');
-        $user3->image = "https://www.zooroyal.at/magazin/wp-content/uploads/2022/09/katze-im-herbst-760x570-1-scaled.jpg";
+        $user3->image = "https://www.schaebens.de/wp-content/uploads/2019/03/schaebens-experten-m%C3%A4nner-selbstbewusste-frau-lacht.jpeg";
         $user3->role = "viewer";
         $user3->save();
 
