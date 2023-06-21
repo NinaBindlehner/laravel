@@ -56,28 +56,16 @@ class PadletsTableSeeder extends Seeder
         $padlet3->is_public = true;
         $padlet3->user_id = 2;
 
-        //User wird zu Padlet3 hinzugefügt -> da tut si aber nu ned wirklich was
-        //user holen
-        //$user = User::all()->first();
+        //User wird zu Padlet3 hinzugefügt
         $padlet3->user()->associate($user);
         $padlet3->save();
 
         //User, Padlets und Rollen verbinden
         $users = User::all()->pluck("id");
         $roles = Role::all()->pluck("id");
-        //$padlet3->users()->sync($users);
-        //$padlet3->users()->sync($roles);
         $padlet3->users()->syncWithPivotValues($users, ['role_id' => $roles[1]]);
 
-        //folgende Zeile wär die richtige Variante, aber Problem: undefined array key 1
-        //$padlet3->users()->syncWithPivotValues($users, ['role_id' => $roles[3]]);
-        //$padlet3->users()->syncWithPivotValues($users, $roles);
         $padlet3->save();
-
-        //FEHLER:
-        /*$users = \App\Models\User::all()->pluck("id");
-        $padlet2->users()->sync($users);
-        $padlet2->save();*/
 
         $padlet4 = new Padlet();
         $padlet4->title = "Padlet4";

@@ -18,10 +18,8 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        //$roles = ['admin', 'editor', 'viewer']; //ev. admin, provider, customer oder owner oder so statt CRUD
         $roles = [
             ['title' => 'admin'],
-            //['title' => 'editor'],
             ['title' => 'viewer'],
         ];
 

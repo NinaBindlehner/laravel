@@ -57,7 +57,6 @@ class UsersTableSeeder extends Seeder
         $user3->save();
 
         //update
-        //$user = App\Models\User::find(1);
         $user1->firstname= 'Nina';
         $user1->save();
 
@@ -65,20 +64,5 @@ class UsersTableSeeder extends Seeder
         //$user = App\Models\User::find(1);
         //$user3->delete();
 
-        //geht a ned...
-        //$user3 = App\Models\User::firstOrCreate(['firstname' => 'Max','lastname' => 'Mustermann']);
-
-        /*$padlet2 = new \App\Models\Padlet;
-        $padlet2->title = "Neues Padlet2";
-        $padlet2->description = "Das ist ein neues Padlet2";*/
-        //$padlet2->is_public = true;
-
-        /*$padlet3 = new \App\Models\Padlet;
-        $padlet3->title = "Neues Padlet3";
-        $padlet3->description = "Das ist ein neues Padlet3";*/
-        //$padlet3->is_public = true;
-
-        /*$user1->padlets()->saveMany([$padlet2, $padlet3]);
-        $user1->save();*/
     }
 }

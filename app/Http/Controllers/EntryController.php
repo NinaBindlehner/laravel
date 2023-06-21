@@ -11,10 +11,8 @@ use Illuminate\Support\Facades\DB;
 class EntryController extends Controller
 {
     public function index() : JsonResponse{ //Hauptseite padlets -> index.blade.php wird aufgerufen
-        //$padlets = Padlet::all(); //hier zeigts zwar alle Padlets an, aber zB nicht User -> daher nächste Zeile
         //alle Padlets inkl. Relationen anzeigen als JSON
-        $entries = Entry::with(['user', 'padlet', 'comments', 'ratings'])->get(); //rufen da Methoden vom Padlet-Model auf, damit uns da alles angezeigt wird
-        //return view('padlets.index', compact('padlets'));
+        $entries = Entry::with(['user', 'padlet', 'comments', 'ratings'])->get(); //Methoden vom Padlet-Model aufrufen
         return response()->json($entries, 200); //Returncode 200 = alles ok; 404 nicht gefunden, 500er Problem am Server
     }
 
@@ -24,7 +22,7 @@ class EntryController extends Controller
     public function findById (string $id) : JsonResponse{
         $entry = Entry::where('id', $id)
             ->with(['user', 'padlet', 'comments', 'ratings'])->first();
-        return $entry != null ? response()->json($entry, 200) : response()->json(null, 200); //wenn null, also kein Buch vorhanden = leeres Objekt, dann soll trotzdem Code 200 sein, weils ja kein Fehler ist -> es ist nur kein Buch vorhanden
+        return $entry != null ? response()->json($entry, 200) : response()->json(null, 200); //wenn null, also kein Buch vorhanden = leeres Objekt, dann soll trotzdem Code 200 sein, weils ja kein Fehler ist -> es ist nur kein Padlet vorhanden
     }
 
     /**
@@ -49,42 +47,14 @@ class EntryController extends Controller
     /**
      * SAVE-Methode -> legt einen neuen Entry an und speichert diesen
      */
-    public function save(Request $request) : JsonResponse { //http-request kommt rein und kein fertiges Buch
-        //$request = $this->parseRequest($request);
-        //dd($request); //zum Testen
-        //return response()->json(null, 200); //zum Testen
+    public function save(Request $request) : JsonResponse { //http-request kommt rein und kein fertiges Padlet
         /**
          * Transaktion anlegen
          */
         DB::beginTransaction();
 
         try {
-            $entry = Entry::create($request->all()); //create legt neuen Entry an
-
-            /**
-             * überprüfen, ob User bereits vorhanden -> wenn id bereits existiert, dann wird firstname und lastname mit neuen Werten überschrieben
-             */
-            /*if(isset($request['users']) && is_array($request['users'])){ //überprüfen, ob im Request User drinenn sind + ob ein Array daher kommt
-                foreach($request['users'] as $user){ //falls ja, dann drüberiterieren
-                    $user = User::firstOrNew([ //gibts User schon? wenn nicht, dann wird er angelegt -> dafür gibts in Eloquent Methode firstOrNew
-                        'firstName' => $user['firstName'],
-                        'lastName' => $user['lastName']
-                    ]);
-                    $entry->users()->save($user); //User muss nun noch Padlet zugeordnet werden, nachdem er angelegt wurde
-                }
-            }*/
-
-            /*if(isset($request['entries']) && is_array($request['entries'])){
-                foreach($request['entries'] as $entry){
-                    $entry = Entry::firstOrNew([
-                        'title' => $entry['title'],
-                        'description' => $entry['description']
-                    ]);
-                    $padlet->entries()->save($entry);
-                }
-            }*/
-
-
+            $entry = Entry::create($request->all()); //neuen Entry anlegen
             DB::commit();
             return response()->json($entry, 200);
         }
@@ -109,18 +79,6 @@ class EntryController extends Controller
                 $request = $this->parseRequest($request);
 
                 $entry-> update($request->all());
-                //delete old iamges
-                //$padlet->images()->delete();
-
-                /*if (isset($request['images']) && is_array($request['images'])) {
-                    foreach ($request['images'] as $image) {
-                        $image = Image::firstOrNew([
-                            'title' => $image['title'],
-                            'url' => $image['url']
-                        ]);
-                        $book->images()->save($image);
-                    }
-                }*/
 
                 /**
                  * das ist Alternative zu auskommentiertem Code drüber mit images -> das könnt i mit Users auch machen
@@ -133,7 +91,6 @@ class EntryController extends Controller
                         array_push($ids, $user['id']);
                     }
                 }
-                //$entry->users()->sync($ids);
                 $entry->save();
             }
 
@@ -164,11 +121,6 @@ class EntryController extends Controller
         else
             return response()->json('Eintrag konnte nicht gelöscht werden, weil es nicht existiert', 422);
     }
-
-
-
-
-
 
 
 

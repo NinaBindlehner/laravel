@@ -17,11 +17,4 @@ class Role extends Model
     public function padletUser() : HasMany {
         return $this->hasMany(PadletUser::class);
     }
-
-    //ev users + padlets belongstomany
-    //1 Rolle gehört zu mehreren Usern
-    /*public function users() : BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }*/
 }
